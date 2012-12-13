@@ -53,6 +53,7 @@ requires 'Module::Pluggable' => '3.9';
 requires 'Path::Class' => '0.09';
 requires 'Scalar::Util';
 requires 'Sub::Exporter';
+requires 'Term::Size::Guess';
 requires 'Text::SimpleTable' => '0.03';
 requires 'Time::HiRes';
 requires 'Tree::Simple' => '1.15';

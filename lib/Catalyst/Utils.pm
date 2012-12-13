@@ -9,6 +9,7 @@ use Carp qw/croak/;
 use Cwd;
 use Class::MOP;
 use String::RewritePrefix;
+use Term::Size::Guess;
 
 use namespace::clean;
 
@@ -382,6 +383,8 @@ that 'env' now lists COLUMNS.)
 
 As last resort, default value of 80 chars will be used.
 
+See L<Term::Size::Guess/chars>.
+
 =cut
 
 my $_term_width;
@@ -389,19 +392,10 @@ my $_term_width;
 sub term_width {
     return $_term_width if $_term_width;
 
-    my $width = eval '
-        use Term::Size::Any;
-        my ($columns, $rows) = Term::Size::Any::chars;
-        return $columns;
-    ';
+    my $width = Term::Size::Guess::chars;
 
-    if ($@) {
-        $width = $ENV{COLUMNS}
-            if exists($ENV{COLUMNS})
-            && $ENV{COLUMNS} =~ m/^\d+$/;
-    }
+    $width = 80 if $width < 80;
 
-    $width = 80 unless ($width && $width >= 80);
     return $_term_width = $width;
 }
 
