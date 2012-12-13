@@ -101,7 +101,7 @@ BEGIN { use_ok("Catalyst::Stats") };
 # accept
 {
     my $stats = Catalyst::Stats->new;
-    my $root = $stats->{tree};
+    my $root = $stats->tree;
     my $uid = $root->getUID;
 
     my $visitor = Tree::Simple::Visitor::FindByUID->new;
@@ -141,20 +141,20 @@ BEGIN { use_ok("Catalyst::Stats") };
 
     $stats->setNodeValue( $stat );
 
-    is_deeply( $stats->{tree}->getNodeValue, { action => 'test', elapsed => 10, comment => '' }   , '[COMPAT] setNodeValue(), data munged' );
+    is_deeply( $stats->tree->getNodeValue, { action => 'test', elapsed => 10, comment => '' }   , '[COMPAT] setNodeValue(), data munged' );
 }
 
 # getNodeValue
 {
     my $stats = Catalyst::Stats->new;
-    my $expected = $stats->{tree}->getNodeValue->{t};
+    my $expected = $stats->tree->getNodeValue->{t};
     is_deeply( $stats->getNodeValue, $expected, '[COMPAT] getNodeValue()' );
 }
 
 # traverse
 {
     my $stats = Catalyst::Stats->new;
-    $stats->{tree}->addChild( Tree::Simple->new( { foo => 'bar' } ) );
+    $stats->tree->addChild( Tree::Simple->new( { foo => 'bar' } ) );
     my @value;
     $stats->traverse( sub { push @value, shift->getNodeValue->{ foo }; } );
 
